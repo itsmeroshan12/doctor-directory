@@ -70,8 +70,15 @@ const EditDoctor = () => {
       if (doctorImageFile) formData.append("doctorImage", doctorImageFile);
       if (hospitalImageFile) formData.append("hospitalImage", hospitalImageFile);
 
+      // Get the token from localStorage or wherever you're storing it
+      const token = localStorage.getItem("jwtToken");
+
+      // Make the PUT request with the Authorization header containing the token
       await axios.put(`http://localhost:5000/api/doctors/${doctor.id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`,  // Include the token in the Authorization header
+        },
       });
 
       toast.success("Doctor details updated successfully!");
@@ -217,7 +224,7 @@ const EditDoctor = () => {
               value={doctor.address}
               onChange={handleInputChange}
               />
-          </Form.Group> 
+          </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 const Hospitals = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
@@ -45,8 +46,21 @@ const Hospitals = () => {
     return searchMatch && categoryMatch;
   });
 
+  // back to menu page
+  const handleBack = () => {
+    navigate('/');
+  }
+
   return (
+   
+
     <div className="container mt-5">
+
+      <div className="d-flex justify-content-start mb-3">
+        <button className="btn btn-secondary" onClick={handleBack}>
+        ⬅️ Back to Menu
+        </button>
+      </div>
       <h1 className="mb-4 text-center">Listed Hospitals & Doctors</h1>
       
       {/* Search and Category Filter */}

@@ -5,19 +5,24 @@ import Hospitals from "./pages/Hospitals";
 import ViewPage from "./pages/ViewPage"; // Your view form page
 import EditDoctor from "./pages/EditDoctor"; // Import the edit page
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Login from './pages/Login'; // <-- To be created
+import Register from './pages/Register'; // <-- To be created
+import ResetPassword  from "./pages/ResetPassword"; // reset the password 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/hospitals" element={<Hospitals />} />
+        <Route path="/user/login" element={<Login />} />
+        <Route path="/user/register" element={<Register />} /> {/* Corrected this line */}
         <Route path="/hospitals/:slug" element={<ViewPage />} />
         <Route path="/hospitals/edit/:slug" element={<EditDoctor />} />
+        <Route path="/user/reset-password/:token" element={<ResetPassword />} /> {/* Reset password route */}
+
       </Routes>
     </Router>
   );
 };
 
 export default App;
-// import React from "react";

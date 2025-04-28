@@ -17,8 +17,7 @@ const ViewPage = () => {
     const fetchDoctor = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/doctors/slug/${slug}`);
-        console.log("Doctor Slug:", doctor?.slug);
-        console.log("Fetched doctor data:", res.data);
+        console.log("Fetched doctor data:", res.data); // Log the fetched data
         setDoctor(res.data);
       } catch (err) {
         console.error("Error fetching doctor details:", err);
