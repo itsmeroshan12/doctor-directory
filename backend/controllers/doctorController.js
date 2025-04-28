@@ -179,3 +179,31 @@ exports.deleteDoctorById = async (req, res) => {
     res.status(500).json({ message: "Error deleting doctor" });
   }
 };
+
+
+// Get the latest 9 doctors added to the database
+exports.getLatestDoctors = async (req, res) => {
+  try {
+    // Fetch the latest 9 doctors by ordering the doctors by ID in descending order
+    const [doctors] = await db.execute("SELECT * FROM doctors ORDER BY id DESC LIMIT 9");
+
+    if (doctors.length === 0) {
+      return res.status(404).json({ message: "No doctors found" });
+    }
+
+    // Add slugs to the latest doctors
+    const doctorsWithSlugs = doctors.map((doctor) => ({
+      ...doctor,
+      slug: slugify(doctor.hospitalName), // Assuming hospitalName for slug
+    }));
+
+    res.status(200).json(doctorsWithSlugs);
+  } catch (err) {
+    console.error("Error fetching latest doctors:", err);
+    res.status(500).json({ error: "Failed to fetch the latest doctors" });
+  }
+};
+
+
+
+

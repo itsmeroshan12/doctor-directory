@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const doctorController = require("../controllers/doctorController");
+const authMiddleware = require("../middleware/authMiddleware");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -19,12 +20,28 @@ const storage = multer.diskStorage({
     cb(null, uniqueName);
   },
 });
-const upload = multer({ storage });
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png|gif/;
+    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = fileTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+      return cb(null, true);
+    }
+    cb(new Error('Invalid file type. Only images are allowed.'));
+  }
+});
 
 // ===== ROUTES =====
 
 // GET all doctors
 router.get("/", doctorController.getDoctors);
+
+// GET latest 9 doctors
+router.get("/latest", doctorController.getLatestDoctors);
 
 // POST a new doctor
 router.post(
@@ -33,6 +50,7 @@ router.post(
     { name: "doctorImage", maxCount: 1 },
     { name: "hospitalImage", maxCount: 1 },
   ]),
+  authMiddleware, 
   doctorController.addDoctor
 );
 
@@ -49,10 +67,11 @@ router.put(
     { name: "doctorImage", maxCount: 1 },
     { name: "hospitalImage", maxCount: 1 },
   ]),
+  authMiddleware,
   doctorController.updateDoctorById
 );
 
-// DELETE a doctor by ID (NEW ROUTE)
-router.delete("/:id", doctorController.deleteDoctorById);
+// DELETE a doctor by ID
+router.delete("/:id", authMiddleware, doctorController.deleteDoctorById);
 
 module.exports = router;
