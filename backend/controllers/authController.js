@@ -14,7 +14,7 @@ const registerUser = (req, res) => {
   }
 
   if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwor ds do not match." });
+    return res.status(400).json({ message: "Passwords do not match." });
   }
 
   // Check if user already exists
@@ -96,7 +96,5 @@ const loginUser = (req, res) => {
     }
   });
 };
-
-
 
 module.exports = { registerUser, loginUser };

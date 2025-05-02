@@ -4,18 +4,25 @@ const db = require("../config/db");
 const slugify = (text) =>
   text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-// Get all doctors
-exports.getDoctors = async (req, res) => {
+// ✅ Get doctors created by the logged-in user
+exports.getUserDoctors = async (req, res) => {
   try {
-    const [doctors] = await db.execute("SELECT * FROM doctors ORDER BY id DESC");
+    const userId = req.user.id; // Get user id from the JWT token (from the auth middleware)
+
+    const [doctors] = await db.execute(
+      "SELECT * FROM doctors WHERE user_id = ? ORDER BY created_at DESC",
+      [req.user.id]
+    );
+
     const doctorsWithSlugs = doctors.map((doc) => ({
       ...doc,
       slug: slugify(doc.hospitalName),
     }));
-    res.status(200).json(doctorsWithSlugs);
+
+    res.status(200).json(doctorsWithSlugs); // Send the doctor's data with slugs
   } catch (err) {
-    console.error("Error fetching doctors:", err);
-    res.status(500).json({ error: "Failed to fetch doctors" });
+    console.error("Error fetching user's doctors:", err);
+    res.status(500).json({ error: "Failed to fetch your doctor listings" });
   }
 };
 
@@ -42,13 +49,15 @@ exports.addDoctor = async (req, res) => {
       return res.status(400).json({ error: "All required fields must be filled" });
     }
 
+    const userId = req.user.id;
+
     const sql = `
       INSERT INTO doctors (
         hospitalName, doctorName, mobile, email, website,
         experience, specialization, category,
-        doctorImage, hospitalImage, description, address
+        doctorImage, hospitalImage, description, address, user_id
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -64,6 +73,7 @@ exports.addDoctor = async (req, res) => {
       hospitalImage,
       description,
       address,
+      req.user.id,
     ];
 
     await db.execute(sql, values);
@@ -71,6 +81,19 @@ exports.addDoctor = async (req, res) => {
   } catch (err) {
     console.error("Error adding doctor:", err);
     res.status(500).json({ error: "Failed to add doctor" });
+  }
+};
+
+
+
+// Controller to fetch all doctors
+exports.getDoctors = async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM doctors");
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error("Error fetching doctors:", err);
+    res.status(500).json({ error: "Failed to fetch doctors" });
   }
 };
 
@@ -90,7 +113,7 @@ exports.getDoctorBySlug = async (req, res) => {
   }
 };
 
-// ✅ Get doctor by ID
+// Get doctor by ID
 exports.getDoctorById = async (req, res) => {
   try {
     const [rows] = await db.execute("SELECT * FROM doctors WHERE id = ?", [req.params.id]);
@@ -102,7 +125,7 @@ exports.getDoctorById = async (req, res) => {
   }
 };
 
-// ✅ Update doctor by ID
+// Update doctor by ID
 exports.updateDoctorById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -116,7 +139,7 @@ exports.updateDoctorById = async (req, res) => {
       specialization,
       category,
       description,
-      address,  
+      address,
     } = req.body;
 
     const doctorImage = req.files?.doctorImage?.[0]?.filename;
@@ -156,23 +179,19 @@ exports.updateDoctorById = async (req, res) => {
   }
 };
 
-// ✅ Delete doctor by ID (NEW FUNCTIONALITY)
+// Delete doctor by ID
 exports.deleteDoctorById = async (req, res) => {
   try {
-    const doctorId = req.params.id;  // Get the doctor ID from the URL parameter
+    const doctorId = req.params.id;
 
-    // SQL query to delete a doctor by ID
     const deleteQuery = "DELETE FROM doctors WHERE id = ?";
 
-    // Execute the query
     const [result] = await db.execute(deleteQuery, [doctorId]);
 
     if (result.affectedRows === 0) {
-      // If no rows were affected, doctor not found
       return res.status(404).json({ message: "Doctor not found" });
     }
 
-    // Successfully deleted doctor
     res.status(200).json({ message: "Doctor deleted successfully" });
   } catch (err) {
     console.error("Error deleting doctor:", err);
@@ -180,21 +199,18 @@ exports.deleteDoctorById = async (req, res) => {
   }
 };
 
-
-// Get the latest 9 doctors added to the database
+// Get the latest 9 doctors
 exports.getLatestDoctors = async (req, res) => {
   try {
-    // Fetch the latest 9 doctors by ordering the doctors by ID in descending order
     const [doctors] = await db.execute("SELECT * FROM doctors ORDER BY id DESC LIMIT 9");
 
     if (doctors.length === 0) {
       return res.status(404).json({ message: "No doctors found" });
     }
 
-    // Add slugs to the latest doctors
     const doctorsWithSlugs = doctors.map((doctor) => ({
       ...doctor,
-      slug: slugify(doctor.hospitalName), // Assuming hospitalName for slug
+      slug: slugify(doctor.hospitalName),
     }));
 
     res.status(200).json(doctorsWithSlugs);
@@ -203,7 +219,3 @@ exports.getLatestDoctors = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch the latest doctors" });
   }
 };
-
-
-
-

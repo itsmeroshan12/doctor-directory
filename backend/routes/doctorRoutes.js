@@ -16,29 +16,30 @@ if (!fs.existsSync(uploadPath)) {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadPath),
   filename: (req, file, cb) => {
-    const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9) + path.extname(file.originalname);
+    const uniqueName =
+      Date.now() + "-" + Math.round(Math.random() * 1e9) + path.extname(file.originalname);
     cb(null, uniqueName);
   },
 });
-const upload = multer({ 
+
+const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png|gif/;
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = fileTypes.test(file.mimetype);
-
     if (extname && mimetype) {
       return cb(null, true);
     }
-    cb(new Error('Invalid file type. Only images are allowed.'));
-  }
+    cb(new Error("Invalid file type. Only images are allowed."));
+  },
 });
 
 // ===== ROUTES =====
 
 // GET all doctors
-router.get("/", doctorController.getDoctors);
+router.get('/', doctorController.getDoctors);
 
 // GET latest 9 doctors
 router.get("/latest", doctorController.getLatestDoctors);
@@ -50,7 +51,7 @@ router.post(
     { name: "doctorImage", maxCount: 1 },
     { name: "hospitalImage", maxCount: 1 },
   ]),
-  authMiddleware, 
+  authMiddleware,
   doctorController.addDoctor
 );
 
@@ -73,5 +74,8 @@ router.put(
 
 // DELETE a doctor by ID
 router.delete("/:id", authMiddleware, doctorController.deleteDoctorById);
+
+// GET doctors created by logged-in user
+router.get("/user/items", authMiddleware, doctorController.getUserDoctors);
 
 module.exports = router;

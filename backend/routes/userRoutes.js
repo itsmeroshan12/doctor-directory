@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const db = require('../config/db'); 
 const { findUserByEmail } = require('../models/userModel');
+const authMiddleware = require('../middleware/authMiddleware'); // Import the auth middleware
 
 // Secret key for JWT
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key'; // safer
@@ -59,7 +60,6 @@ router.post('/login', async (req, res) => {
     // 2. Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     console.log('🔐 Password match:', isMatch);  // Log password match result
-    
 
     if (!isMatch) {
       console.log('❌ Password mismatch');
@@ -101,5 +101,27 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Get User's Items (Doctor Listings) - Authenticated route
+router.get('/items', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id; // Get the user ID from the token
+
+    // Query to get doctor's listings for the logged-in user
+    const [doctors] = await db.query('SELECT * FROM doctors WHERE user_id = ?', [userId]);
+
+    if (doctors.length === 0) {
+      return res.status(404).json({ success: false, message: 'No listings found for this user' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'User listings retrieved successfully',
+      listings: doctors,
+    });
+  } catch (error) {
+    console.error("Error fetching user's listings:", error);
+    return res.status(500).json({ success: false, message: 'Error fetching listings' });
+  }
+});
 
 module.exports = router;

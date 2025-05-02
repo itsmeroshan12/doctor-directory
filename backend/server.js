@@ -27,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/api/doctors", doctorRoutes);
+app.use("/api/auth", authRoutes);
 
 // forgot password Route 
 app.use('/auth', forgotPasswordRoutes);  // Now available at /auth/forgot-password
