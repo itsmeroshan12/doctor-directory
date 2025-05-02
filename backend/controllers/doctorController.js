@@ -86,16 +86,29 @@ exports.addDoctor = async (req, res) => {
 
 
 
-// Controller to fetch all doctors
+// Controller to fetch all doctors and with 12 on each page
 exports.getDoctors = async (req, res) => {
   try {
-    const [rows] = await db.execute("SELECT * FROM doctors");
-    res.status(200).json(rows);
-  } catch (err) {
-    console.error("Error fetching doctors:", err);
-    res.status(500).json({ error: "Failed to fetch doctors" });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 12;
+    const offset = (page - 1) * limit;
+
+    const [rows] = await db.execute(
+      'SELECT * FROM doctors ORDER BY created_at DESC LIMIT ? OFFSET ?',
+      [limit, offset]
+    );
+
+    const [countResult] = await db.execute('SELECT COUNT(*) as count FROM doctors');
+    const total = countResult[0].count;
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({ doctors: rows, totalPages, currentPage: page });
+  } catch (error) {
+    console.error('Error fetching doctors:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 // Get doctor by slug
 exports.getDoctorBySlug = async (req, res) => {
@@ -128,7 +141,23 @@ exports.getDoctorById = async (req, res) => {
 // Update doctor by ID
 exports.updateDoctorById = async (req, res) => {
   try {
-    const id = req.params.id;
+    const doctorId = req.params.id;
+
+    // Step 1: Get current doctor entry to check ownership
+    const [doctorResult] = await db.execute("SELECT user_id FROM doctors WHERE id = ?", [doctorId]);
+
+    if (doctorResult.length === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    const doctor = doctorResult[0];
+
+    // Step 2: Check if logged-in user is the owner
+    if (doctor.user_id !== req.user.id) {
+      return res.status(403).json({ message: "You are not authorized to update this doctor" });
+    }
+
+    // Step 3: Prepare update data
     const {
       hospitalName,
       doctorName,
@@ -170,9 +199,10 @@ exports.updateDoctorById = async (req, res) => {
       WHERE id = ?
     `;
 
-    await db.execute(sql, [...values, id]);
+    await db.execute(sql, [...values, doctorId]);
 
     res.status(200).json({ message: "Doctor updated successfully" });
+
   } catch (err) {
     console.error("Error updating doctor:", err);
     res.status(500).json({ message: "Server error", error: err.message });

@@ -12,7 +12,7 @@ if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath);
 }
 
-// Multer setup
+// Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadPath),
   filename: (req, file, cb) => {
@@ -39,12 +39,21 @@ const upload = multer({
 // ===== ROUTES =====
 
 // GET all doctors
-router.get('/', doctorController.getDoctors);
+router.get("/", doctorController.getDoctors);
 
 // GET latest 9 doctors
 router.get("/latest", doctorController.getLatestDoctors);
 
-// POST a new doctor
+// GET doctors created by logged-in user
+router.get("/user/items", authMiddleware, doctorController.getUserDoctors);
+
+// GET doctor by slug — placed before ID to avoid conflict
+router.get("/slug/:slug", doctorController.getDoctorBySlug);
+
+// GET doctor by ID
+router.get("/:id", doctorController.getDoctorById);
+
+// POST a new doctor (protected)
 router.post(
   "/",
   upload.fields([
@@ -55,13 +64,7 @@ router.post(
   doctorController.addDoctor
 );
 
-// GET doctor by slug
-router.get("/slug/:slug", doctorController.getDoctorBySlug);
-
-// GET doctor by ID
-router.get("/:id", doctorController.getDoctorById);
-
-// PUT update doctor by ID
+// PUT update doctor by ID (protected)
 router.put(
   "/:id",
   upload.fields([
@@ -72,10 +75,9 @@ router.put(
   doctorController.updateDoctorById
 );
 
-// DELETE a doctor by ID
+// DELETE a doctor by ID (protected)
 router.delete("/:id", authMiddleware, doctorController.deleteDoctorById);
 
-// GET doctors created by logged-in user
-router.get("/user/items", authMiddleware, doctorController.getUserDoctors);
+
 
 module.exports = router;

@@ -6,7 +6,8 @@ const { findUserByEmail } = require('../models/userModel');
 
 // ✅ Middleware to verify JWT from cookies and attach user to req
 const verifyToken = (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.cookies.token || 
+                (req.headers.authorization && req.headers.authorization.split(" ")[1]);
 
   if (!token) {
     return res.status(401).json({ loggedIn: false, message: "No token provided" });
@@ -14,12 +15,14 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach user info to request
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({ loggedIn: false, message: "Invalid token" });
   }
 };
+
+
 
 // ✅ Login Route
 router.post('/login', async (req, res) => {
