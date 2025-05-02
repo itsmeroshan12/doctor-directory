@@ -34,15 +34,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous error
+    setError('');
+  
     try {
       const res = await axios.post('http://localhost:5000/auth/login', {
         email: credentials.email,
         password: credentials.password,
       }, { withCredentials: true });
-
+  
       if (res.status === 200) {
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('token', res.data.token); // (optional if token is also in cookie)
+        localStorage.setItem('firstName', res.data.user.firstName); // ✅ Save firstName here
         navigate('/');
       }
     } catch (err) {
@@ -56,6 +58,7 @@ const Login = () => {
       });
     }
   };
+  
 
   return (
     <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', background: '#f1f3f6' }}>

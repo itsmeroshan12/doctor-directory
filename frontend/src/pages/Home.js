@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LatestListings from '../components/LatestListings';
-import Navbar from '../components/Navbar'; // New Navbar import
+import Navbar from '../components/Navbar';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,10 +30,27 @@ const Home = () => {
     "Pediatrics", "Dentistry", "General Surgery", "ENT", "Psychiatry"
   ];
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     if (files) {
-      setFormData({ ...formData, [name]: files[0] });
+      const file = files[0];
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
+
+      if (file && file.size > maxSizeInBytes) {
+        toast.error("File size should not exceed 5 MB");
+        document.getElementById(name).value = ""; // Clear file input
+        return;
+      }
+
+      setFormData({ ...formData, [name]: file });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -60,6 +77,11 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error("You must be logged in to add a doctor listing");
+      return;
+    }
+
     const data = new FormData();
     for (const key in formData) {
       data.append(key, formData[key]);
@@ -67,9 +89,8 @@ const Home = () => {
 
     try {
       await axios.post("http://localhost:5000/api/doctors", data, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true
       });
       toast.success("Doctor added successfully!");
       resetForm();
@@ -83,10 +104,8 @@ const Home = () => {
   return (
     <>
       <Navbar />
-
       <div className="container my-5">
         <ToastContainer />
-
         <div className="mb-5 text-center">
           <h1 className="text-primary">Welcome to the Doctor Directory</h1>
           <p className="lead">Find and list top doctors and hospitals in your city.</p>

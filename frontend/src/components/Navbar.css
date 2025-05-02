@@ -1,0 +1,115 @@
+/* Reset default mobile collapse transform */
+@media (max-width: 991px) {
+    .mobile-slide {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 280px;
+      background: #ffffff;
+      z-index: 1051;
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.35s ease-in-out;
+      transform: translateX(100%);
+      padding: 20px;
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+    }
+  
+    .mobile-slide.show {
+      transform: translateX(0);
+    }
+  
+    body.nav-open .mobile-backdrop {
+      display: block;
+    }
+  
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1050;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
+    }
+  
+    body.nav-open {
+      overflow: hidden;
+    }
+  }
+  
+  /* Navbar brand styling */
+  .navbar-brand {
+    font-size: 1.5rem;
+    color: #2c3e50 !important;
+  }
+  
+  /* Nav links */
+  .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link:hover,
+  .dropdown-item:hover {
+    color: #0d6efd !important;
+    background-color: rgba(13, 110, 253, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Dropdown menu style */
+  .dropdown-menu {
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    border: none;
+    padding: 0.5rem 0;
+  }
+  
+  /* Dropdown item spacing */
+  .dropdown-item {
+    padding: 0.5rem 1.25rem;
+  }
+  
+  /* Dropdown header styling */
+  .dropdown-header {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.25rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Close button positioning for mobile */
+  .btn-close {
+    margin-left: auto;
+    margin-right: 10px;
+    background-color: #dee2e6;
+    border-radius: 50%;
+    padding: 0.4rem;
+  }
+  
+  /* Smoother dropdown transitions (optional) */
+  .dropdown-menu {
+    transition: all 0.25s ease-in-out;
+  }
+
+
+  /* Close button in mobile view */
+.btn-close {
+    background: url('https://img.icons8.com/ios/452/delete-forever.png') no-repeat center;
+    background-size: 25px;
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .user-firstname {
+    font-size: 20px; /* You can adjust the size */
+    font-weight: 600;   /* Optional: makes it semi-bold */
+  }
+  
+  

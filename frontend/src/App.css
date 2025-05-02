@@ -20,3 +20,16 @@ body {
 input:focus {
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
+
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* Optional: prevent dropdown from shifting */
+}
+
+.dropdown-menu {
+  transition: all 0.3s ease;
+}
+
+
+    

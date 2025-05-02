@@ -8,6 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login'; // <-- To be created
 import Register from './pages/Register'; // <-- To be created
 import ResetPassword  from "./pages/ResetPassword"; // reset the password 
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import MyListings from "./components/MyListings";
+
+
 const App = () => {
   return (
     <Router>
@@ -19,6 +23,9 @@ const App = () => {
         <Route path="/hospitals/:slug" element={<ViewPage />} />
         <Route path="/hospitals/edit/:slug" element={<EditDoctor />} />
         <Route path="/user/reset-password/:token" element={<ResetPassword />} /> {/* Reset password route */}
+        <Route path="/user/items" element={<MyListings />} />
+
+
 
       </Routes>
     </Router>

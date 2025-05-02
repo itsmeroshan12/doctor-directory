@@ -64,7 +64,7 @@ const EditDoctor = () => {
     try {
       const formData = new FormData();
       Object.entries(doctor).forEach(([key, value]) => {
-        formData.append(key, value);
+        formData.append(key, value);  
       });
 
       if (doctorImageFile) formData.append("doctorImage", doctorImageFile);

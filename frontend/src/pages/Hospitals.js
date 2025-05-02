@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 
 const Hospitals = () => {
@@ -52,6 +53,8 @@ const Hospitals = () => {
   }
 
   return (
+    <>
+      <Navbar />
    
 
     <div className="container mt-5">
@@ -139,6 +142,7 @@ const Hospitals = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
