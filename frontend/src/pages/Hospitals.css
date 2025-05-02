@@ -1,0 +1,75 @@
+/* Hospitals.css */
+
+/* Card Border and Design */
+.custom-card-border {
+    border: 2px solid #007bff; /* Primary color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-card-border:hover {
+    border-color: #0056b3; /* Darker border on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    transition: all 0.3s ease;
+  }
+  
+  /* Pagination styling */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+  }
+  
+  .page-link {
+    color: #007bff;
+    border-radius: 50%;
+    font-size: 16px;
+    padding: 10px 15px;
+  }
+  
+  .page-item:hover .page-link {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: white;
+  }
+  
+  /* Input and Select styling for filters */
+  input.form-control, select.form-control {
+    border-radius: 10px;
+    border: 1px solid #007bff;
+  }
+  
+  input.form-control:focus, select.form-control:focus {
+    border-color: #0056b3;
+  }
+  
+  /* Button styling */
+  .btn-outline-primary {
+    border-radius: 10px;
+    border: 2px solid #007bff;
+    color: #007bff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-secondary {
+    border-radius: 10px;
+    background-color: #6c757d;
+    border: none;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border: none;
+  }
+  

@@ -1,0 +1,52 @@
+/* ViewPage.css */
+
+.view-container {
+    padding-top: 2rem;
+  }
+  
+  .view-card {
+    border: 2px solid #0d6efd;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: #fff;
+  }
+  
+  .view-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #0d6efd;
+    margin-bottom: 1.5rem;
+  }
+  
+  .view-image {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  
+  .view-doctor-image {
+    width: 200px;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .view-details {
+    text-align: justify;
+    margin-top: 1rem;
+  }
+  
+  .view-details strong {
+    color: #333;
+  }
+  
+  .view-back-btn {
+    margin-top: 2rem;
+    width: 100%;
+  }
+  
+
+  .doctor_description {
+    text-align: justify;
+  }

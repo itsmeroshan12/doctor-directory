@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -39,22 +39,31 @@ const Home = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
+  
     if (files) {
       const file = files[0];
       const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
-
-      if (file && file.size > maxSizeInBytes) {
-        toast.error("File size should not exceed 5 MB");
-        document.getElementById(name).value = ""; // Clear file input
-        return;
+  
+      if (file) {
+        if (!file.type.startsWith("image/")) {
+          toast.error("Only image files are allowed!");
+          document.getElementById(name).value = ""; // Clear the file input
+          return;
+        }
+  
+        if (file.size > maxSizeInBytes) {
+          toast.error("File size should not exceed 5 MB");
+          document.getElementById(name).value = ""; // Clear the file input
+          return;
+        }
+  
+        setFormData({ ...formData, [name]: file });
       }
-
-      setFormData({ ...formData, [name]: file });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
+  
 
   const resetForm = () => {
     setFormData({
@@ -100,6 +109,7 @@ const Home = () => {
       toast.error("Failed to add doctor");
     }
   };
+  const formRef = useRef(null);
 
   return (
     <>
@@ -109,6 +119,23 @@ const Home = () => {
         <div className="mb-5 text-center">
           <h1 className="text-primary">Welcome to the Doctor Directory</h1>
           <p className="lead">Find and list top doctors and hospitals in your city.</p>
+          <button
+            className="btn btn-lg btn-primary mb-5"
+            onClick={() => {
+              setShowForm((prev) => {
+                const newState = !prev;
+                if (!prev) {
+                  // Use a short timeout to scroll after the form is rendered
+                  setTimeout(() => {
+                    formRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }, 0);
+                }
+                return newState;
+              });
+            }}
+          >
+            {showForm ? "Hide Form" : "Add Listing"}
+          </button>
 
           <LatestListings />
 
@@ -121,7 +148,7 @@ const Home = () => {
         </div>
 
         {showForm && (
-          <div className="card shadow-lg p-5">
+          <div ref={formRef} className="card shadow-lg p-5">
             <h2 className="mb-4 text-center text-primary">Add Doctor & Hospital Details</h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
               <div className="mb-3">
@@ -255,6 +282,7 @@ const Home = () => {
                   accept="image/*"
                   onChange={handleChange}
                 />
+                 <small className="form-text text-muted">Only image files are allowed </small>
               </div>
 
               <div className="mb-3">
@@ -266,7 +294,9 @@ const Home = () => {
                   name="doctorImage"
                   accept="image/*"
                   onChange={handleChange}
+                  
                 />
+                 <small className="form-text text-muted">Only image files are allowed </small>
               </div>
 
               <div className="mb-3">

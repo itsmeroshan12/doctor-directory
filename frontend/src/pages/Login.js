@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -12,6 +14,7 @@ const Login = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false); // Show forgot password after 2 attempts
   const [forgotEmail, setForgotEmail] = useState(''); // Store the email for forgot password
   const [showResetForm, setShowResetForm] = useState(false); // Show reset form
+  const [passwordVisible, setPasswordVisible] = useState(false); // Track password visibility
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,14 +24,28 @@ const Login = () => {
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
+    
+    // Show loading toast
+    const loadingToast = toast.loading("Sending reset link...");
+
     try {
       const res = await axios.post('http://localhost:5000/auth/forgot-password', { email: forgotEmail });
       if (res.status === 200) {
-        alert("Password reset link sent to your email!");
+        toast.update(loadingToast, {
+          render: "Password reset link sent!",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000
+        });
         setShowResetForm(false); // Hide the reset form after successful submission
       }
     } catch (err) {
-      setError('Error sending reset link. Please try again.');
+      toast.update(loadingToast, {
+        render: "Error sending reset link. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000
+      });
     }
   };
 
@@ -58,7 +75,6 @@ const Login = () => {
       });
     }
   };
-  
 
   return (
     <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', background: '#f1f3f6' }}>
@@ -92,7 +108,7 @@ const Login = () => {
               <div className="input-group">
                 <span className="input-group-text bg-primary text-white"><FaLock /></span>
                 <input
-                  type="password"
+                  type={passwordVisible ? "text" : "password"}
                   className="form-control"
                   placeholder="Enter your password"
                   name="password"
@@ -100,6 +116,13 @@ const Login = () => {
                   onChange={handleChange}
                   required
                 />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                >
+                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
 
@@ -143,6 +166,9 @@ const Login = () => {
           </form>
         )}
       </div>
+
+      {/* Toast container for showing notifications */}
+      <ToastContainer />
     </div>
   );
 };
