@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import './Hospitals.css';  // Import external CSS file
+import Footer from "../components/Footer"; // Import the Footer component
 
 const Hospitals = () => {
   const [doctors, setDoctors] = useState([]);
@@ -149,6 +150,7 @@ const Hospitals = () => {
           </nav>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

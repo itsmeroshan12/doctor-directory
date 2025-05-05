@@ -50,19 +50,28 @@ const LatestListings = () => {
         {doctorsToDisplay.length > 0 ? (
           doctorsToDisplay.map((doc) => (
             <div className="col-md-4 mb-4" key={doc.id}>
-              <div className="card h-100 border border-2 rounded-4 shadow-sm">
-                <img
-                  src={`http://localhost:5000/uploads/${doc.hospitalImage}`}
-                  className="card-img-top rounded-top"
-                  alt={doc.hospitalName}
-                  style={{ objectFit: 'cover', height: '200px' }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title text-primary">{doc.hospitalName}</h5>
-                  <p className="card-text mb-1"><strong>Doctor:</strong> {doc.doctorName}</p>
-                  <p className="card-text mb-1"><strong>Specialization:</strong> {doc.specialization}</p>
-                  <p className="card-text mb-1"><strong>Experience:</strong> {doc.experience} years</p>
-                  <p className="card-text"><strong>Category:</strong> {doc.category}</p>
+              <div className="card h-100 shadow border-0 rounded-4 overflow-hidden">
+                <div style={{ position: 'relative' }}>
+                  <img
+                    src={`http://localhost:5000/uploads/${doc.hospitalImage}`}
+                    className="card-img-top"
+                    alt={doc.hospitalName}
+                    style={{ objectFit: 'cover', height: '220px' }}
+                  />
+                </div>
+                <div className="card-body bg-light rounded-bottom px-4 py-3">
+                  <h5 className="card-title text-primary mb-2">{doc.hospitalName}</h5>
+                  <p className="mb-1"><strong>👨‍⚕️ Doctor:</strong> {doc.doctorName}</p>
+                  <p className="mb-1"><strong>🩺 Specialization:</strong> {doc.specialization}</p>
+                  <p className="mb-1"><strong>📅 Experience:</strong> {doc.experience} years</p>
+                  <p className="mb-0"><strong>🏷 Category:</strong> {doc.category}</p>
+                </div>
+                <div className="card-footer bg-light text-muted text-end py-2">
+                  <small>{new Date(doc.created_at).toLocaleDateString("en-US", {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}</small>
                 </div>
               </div>
             </div>

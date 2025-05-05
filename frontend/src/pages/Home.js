@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LatestListings from '../components/LatestListings';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer'; // Import the Footer component
 
 const Home = () => {
   const navigate = useNavigate();
@@ -321,8 +322,10 @@ const Home = () => {
           </div>
         )}
       </div>
+      <Footer /> {/* Include the Footer component here */}
     </>
   );
 };
 
 export default Home;
+       

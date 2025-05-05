@@ -1,35 +1,38 @@
+/* Import a Google font or any font you prefer */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #f1f3f6;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Roboto', sans-serif; /* Apply font family to the entire body */
+  background-color: #f9f9f9; /* Optional background color */
+  color: #333; /* Optional text color */
+  font-size: 16px; /* Optional font size */
 }
 
-.card {
-  border-radius: 1rem;
-  transition: transform 0.2s ease-in-out;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif; /* Ensures headings use the same font */
 }
 
-.card:hover {
-  transform: scale(1.01);
+h2{
+  font-size: 34px; /* Adjusted font size for h2 */
+  color: #333; /* Optional color for h2 */
+  font-weight: 700;
 }
 
-.input-group-text {
-  width: 45px;
-  justify-content: center;
+a {
+  text-decoration: none; /* Removes underline from links */
+  color: #007bff; /* Default link color */
 }
 
-input:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+a:hover {
+  color: #0056b3; /* Darker color on hover */
+}
+p {
+  line-height: 1.6; /* Improves readability */
 }
 
-
-.nav-item.dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0; /* Optional: prevent dropdown from shifting */
-}
-
-.dropdown-menu {
-  transition: all 0.3s ease;
-}
-
-
-    

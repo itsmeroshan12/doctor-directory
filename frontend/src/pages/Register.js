@@ -18,19 +18,16 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Validate the email format
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return regex.test(email);
   };
 
-  // Validate the phone number (exactly 10 digits)
   const validatePhone = (phone) => {
     const regex = /^[0-9]{10}$/;
     return regex.test(phone);
   };
 
-  // Validate the password (must have at least one number and one special character)
   const validatePassword = (password) => {
     const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,20}$/;
     return regex.test(password);
@@ -44,7 +41,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation checks
     if (!validateEmail(formData.email)) {
       toast.error('Please enter a valid email address.');
       return;
@@ -65,37 +61,36 @@ const Register = () => {
       return;
     }
 
-    setLoading(true); // Show the loading spinner
+    setLoading(true);
 
     try {
       const response = await axios.post('http://localhost:5000/api/user/register', formData);
-      setLoading(false); // Stop the loading spinner
+      setLoading(false);
 
       if (response.data.message) {
         toast.success(response.data.message || 'Registration successful!');
         setTimeout(() => {
-          navigate('/user/login'); // Navigate to login after success
+          navigate('/user/login');
         }, 2000);
       }
     } catch (error) {
-      setLoading(false); // Stop the loading spinner
+      setLoading(false);
       console.error('Error registering:', error);
       const errorMsg = error.response?.data?.message || 'Registration failed. Please try again.';
       toast.error(errorMsg);
     }
   };
 
-  // Toggle the visibility of the password
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 mb-5">
       <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">
-          <div className="card shadow-lg p-4">
+          <div className="card shadow-lg p-4 rounded-4">
             <h2 className="text-center text-primary mb-4">Register a New Account</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
@@ -162,7 +157,7 @@ const Register = () => {
                   />
                   <span
                     className="position-absolute"
-                    style={{ top: '50%', right: '10px', transform: 'translateY(-50%)' }}
+                    style={{ top: '50%', right: '10px', transform: 'translateY(-50%)', cursor: 'pointer' }}
                     onClick={togglePasswordVisibility}
                   >
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -196,6 +191,13 @@ const Register = () => {
             </form>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Only Back to Home Button */}
+      <div className="d-md-none position-fixed bottom-0 start-0 end-0 bg-light py-2 border-top text-center">
+        <button className="btn btn-outline-primary w-75" onClick={() => navigate('/')}>
+          ← Back to Home
+        </button>
       </div>
     </div>
   );

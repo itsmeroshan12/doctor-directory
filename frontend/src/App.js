@@ -10,7 +10,8 @@ import Register from './pages/Register'; // <-- To be created
 import ResetPassword  from "./pages/ResetPassword"; // reset the password 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import MyListings from "./components/MyListings";
-
+import Footer from "./components/Footer"; // Import the Footer component
+import './App.css'; // Import your CSS file
 
 const App = () => {
   return (
@@ -24,7 +25,9 @@ const App = () => {
         <Route path="/hospitals/edit/:slug" element={<EditDoctor />} />
         <Route path="/user/reset-password/:token" element={<ResetPassword />} /> {/* Reset password route */}
         <Route path="/user/items" element={<MyListings />} />
-
+        <Route path="/user/items/:slug" element={<ViewPage />} /> {/* View form page */}  
+        <Route path="/footer" element={<Footer />} /> {/* Footer route */}
+        <Route path="./App.css" element={<App />} /> {/* CSS file route */}
 
 
       </Routes>

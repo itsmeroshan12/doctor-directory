@@ -10,24 +10,21 @@ import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-  const [attempts, setAttempts] = useState(0); // Track login attempts
-  const [showForgotPassword, setShowForgotPassword] = useState(false); // Show forgot password after 2 attempts
-  const [forgotEmail, setForgotEmail] = useState(''); // Store the email for forgot password
-  const [showResetForm, setShowResetForm] = useState(false); // Show reset form
-  const [passwordVisible, setPasswordVisible] = useState(false); // Track password visibility
+  const [attempts, setAttempts] = useState(0);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    setError(''); // Clear error when the user starts typing
+    setError('');
   };
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    
-    // Show loading toast
     const loadingToast = toast.loading("Sending reset link...");
-
     try {
       const res = await axios.post('http://localhost:5000/auth/forgot-password', { email: forgotEmail });
       if (res.status === 200) {
@@ -37,7 +34,7 @@ const Login = () => {
           isLoading: false,
           autoClose: 5000
         });
-        setShowResetForm(false); // Hide the reset form after successful submission
+        setShowResetForm(false);
       }
     } catch (err) {
       toast.update(loadingToast, {
@@ -52,16 +49,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-  
     try {
       const res = await axios.post('http://localhost:5000/auth/login', {
         email: credentials.email,
         password: credentials.password,
       }, { withCredentials: true });
-  
+
       if (res.status === 200) {
-        localStorage.setItem('token', res.data.token); // (optional if token is also in cookie)
-        localStorage.setItem('firstName', res.data.user.firstName); // ✅ Save firstName here
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('firstName', res.data.user.firstName);
         navigate('/');
       }
     } catch (err) {
@@ -167,7 +163,14 @@ const Login = () => {
         )}
       </div>
 
-      {/* Toast container for showing notifications */}
+      {/* Mobile Only Back to Home Button */}
+      <div className="d-md-none position-fixed bottom-0 start-0 end-0 bg-light py-2 border-top text-center">
+        <button className="btn btn-outline-primary w-75" onClick={() => navigate('/')}>
+          ← Back to Home
+        </button>
+      </div>
+
+      {/* Toast Container */}
       <ToastContainer />
     </div>
   );
