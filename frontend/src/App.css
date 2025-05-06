@@ -1,6 +1,6 @@
 /* Import a Google font or any font you prefer */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +14,12 @@ body {
   font-size: 16px; /* Optional font size */
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
+  font-family: 'Lora', serif; /* Apply Lora font to headings */
+  
+}
+
+ h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif; /* Ensures headings use the same font */
 }
 

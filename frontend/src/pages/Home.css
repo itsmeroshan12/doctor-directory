@@ -1,0 +1,100 @@
+.home-wrapper {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Main welcome section */
+  .home-wrapper .text-primary {
+    color: #007bff !important;
+  }
+  
+  .home-wrapper .lead {
+    font-size: 1.25rem;
+    color: #555;
+  }
+  
+  /* Buttons */
+  .home-wrapper .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .home-wrapper .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .home-wrapper .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .home-wrapper .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .home-wrapper .btn-success:hover {
+    background-color: #218838;
+  }
+  
+ 
+  
+  /* Form controls */
+  .home-wrapper .form-control,
+  .home-wrapper .form-select {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+  }
+  
+  .home-wrapper .form-control:focus,
+  .home-wrapper .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  /* Form layout */
+  .home-wrapper form .mb-3 label {
+    font-weight: 500;
+  }
+  
+  .home-wrapper textarea.form-control {
+    resize: none;
+  }
+  
+  /* Toast container */
+  .home-wrapper .Toastify__toast-container {
+    z-index: 9999;
+  }
+
+
+  .home-wrapper .typing-text {
+    font-size: 1.5rem;
+    color: #555;
+    min-height: 1.5rem;
+    color: #39a752;
+  }
+
+  .home-wrapper h1{
+    font-weight: 700;
+
+  }
+  
+  /* Responsive spacing */
+  @media (max-width: 576px) {
+    .home-wrapper .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .home-wrapper .d-flex.justify-content-between {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .home-wrapper .typing-text {
+        font-size: 1rem
+    }
+  }
+  

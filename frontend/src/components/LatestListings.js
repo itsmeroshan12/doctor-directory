@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './LatestListings.css'; // Import  CSS file for styling
 
 const LatestListings = () => {
   const [latestDoctors, setLatestDoctors] = useState([]);
@@ -42,15 +43,15 @@ const LatestListings = () => {
 
   const doctorsToDisplay = showAll ? allDoctors : latestDoctors;
 
-  return (
+  return (  
     <div className="container mt-5">
       <h2 className="mb-4 text-center text-primary">Latest Listings</h2>
 
       <div className="row">
         {doctorsToDisplay.length > 0 ? (
           doctorsToDisplay.map((doc) => (
-            <div className="col-md-4 mb-4" key={doc.id}>
-              <div className="card h-100 shadow border-0 rounded-4 overflow-hidden">
+            <div className="col-12 col-sm-4 col-md-4 mb-4" key={doc.id}>
+              <div className="card h-100 shadow border-0 rounded-4 overflow-hidden latest-listing-card">
                 <div style={{ position: 'relative' }}>
                   <img
                     src={`http://localhost:5000/uploads/${doc.hospitalImage}`}
@@ -89,6 +90,10 @@ const LatestListings = () => {
         </div>
       )}
     </div>
+
+
+
+
   );
 };
 

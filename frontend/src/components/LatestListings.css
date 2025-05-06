@@ -1,0 +1,31 @@
+/* LatestListings.css */
+
+/* Card border */
+.card.latest-listing-card {
+    border: 2px solid #3272b3 !important;
+  }
+  
+  @media (max-width: 576px) {
+    .card.latest-listing-card {
+      font-size: 0.875rem;
+    }
+  
+    .card.latest-listing-card img {
+      height: 160px !important;
+      object-fit: cover;
+    }
+  
+    .card.latest-listing-card .card-body {
+      padding: 0.75rem !important;
+    }
+  
+    .card.latest-listing-card .card-title {
+      font-size: 1rem;
+    }
+  
+    .card.latest-listing-card .card-footer {
+      font-size: 0.75rem;
+      padding: 0.5rem !important;
+    }
+  }
+  
