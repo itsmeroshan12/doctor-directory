@@ -28,8 +28,7 @@ const App = () => {
         <Route path="/user/items/:slug" element={<ViewPage />} /> {/* View form page */}  
         <Route path="/footer" element={<Footer />} /> {/* Footer route */}
         <Route path="./App.css" element={<App />} /> {/* CSS file route */}
-
-
+    
       </Routes>
     </Router>
   );

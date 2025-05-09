@@ -90,10 +90,7 @@ const LatestListings = () => {
         </div>
       )}
     </div>
-
-
-
-
+    
   );
 };
 
