@@ -94,4 +94,5 @@ const LatestListings = () => {
   );
 };
 
+
 export default LatestListings;
