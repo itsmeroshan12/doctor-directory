@@ -1,10 +1,11 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import './Hospitals.css';  // Import external CSS file
 import Footer from "../components/Footer"; // Import the Footer component
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const Hospitals = () => {
   const [doctors, setDoctors] = useState([]);

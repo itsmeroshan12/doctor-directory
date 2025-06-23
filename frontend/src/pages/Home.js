@@ -1,4 +1,3 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +8,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer'; // Import the Footer component
 import './Home.css'; // Import your CSS file
 import { TypeAnimation } from 'react-type-animation';
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const Home = () => {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ const Home = () => {
     }
 
     try {
-      await axios.post("${API_BASE}/api/doctors", data, {
+      await axios.post(`${API_BASE}/api/doctors`, data, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true
       });

@@ -1,4 +1,3 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +5,8 @@ import { Form, Button, Container, Card, Modal } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const EditDoctor = () => {
   const { slug } = useParams();
@@ -101,9 +102,9 @@ const EditDoctor = () => {
     <>
 
       <Container className="mt-5">
-      <Link to="/user/items" className="btn btn-secondary mb-3  ">
-      ⬅️ Back to My Listings
-      </Link>
+        <Link to="/user/items" className="btn btn-secondary mb-3  ">
+          ⬅️ Back to My Listings
+        </Link>
         <Card className="p-4 shadow">
           <h2 className="mb-4">Edit Doctor Details</h2>
           <Form onSubmit={handleFormSubmit} encType="multipart/form-data">
@@ -261,8 +262,8 @@ const EditDoctor = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
-              Update Doctor Details
+            <Button variant="primary" type="submit" disabled={loading}>
+              {loading ? "Updating..." : "Update Doctor Details"}
             </Button>
           </Form>
         </Card>

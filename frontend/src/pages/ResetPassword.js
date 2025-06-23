@@ -1,8 +1,9 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const ResetPassword = () => {
   const { token } = useParams(); // ✅ Get token from URL

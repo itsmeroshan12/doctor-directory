@@ -1,10 +1,11 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const Register = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('${API_BASE}/api/user/register', formData);
+      const response = await axios.post(`${API_BASE}/api/user/register`, formData);
       setLoading(false);
 
       if (response.data.message) {

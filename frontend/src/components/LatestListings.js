@@ -1,8 +1,9 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LatestListings.css'; // Import  CSS file for styling
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const LatestListings = () => {
   const [latestDoctors, setLatestDoctors] = useState([]);
@@ -13,7 +14,7 @@ const LatestListings = () => {
   useEffect(() => {
     const fetchLatestDoctors = async () => {
       try {
-        const res = await axios.get('${API_BASE}/api/doctors/latest');
+        const res = await axios.get(`${API_BASE}/api/doctors/latest`);
         if (Array.isArray(res.data)) {
           setLatestDoctors(res.data);
         } else {
@@ -29,7 +30,7 @@ const LatestListings = () => {
 
   const fetchAllDoctors = async () => {
     try {
-      const res = await axios.get('${API_BASE}/api/doctors');
+      const res = await axios.get(`${API_BASE}/api/doctors`);
       if (Array.isArray(res.data.doctors)) {
         setAllDoctors(res.data.doctors);
         setShowAll(true);

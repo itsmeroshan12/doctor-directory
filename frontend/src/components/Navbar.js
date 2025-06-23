@@ -1,4 +1,3 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +7,8 @@ import './Navbar.css'; // Custom styles
 import Collapse from 'bootstrap/js/dist/collapse';
 import axios from 'axios';
 
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
+
 const Navbar = () => {
   const isLoggedIn = localStorage.getItem('token');
   const firstName = localStorage.getItem('firstName') || 'User'; // ✅ updated from username
@@ -15,7 +16,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("${API_BASE}/auth/logout", {}, { withCredentials: true });
+      await axios.post(`${API_BASE}/auth/logout`, {}, { withCredentials: true });
   
       // 🧹 Clear client-side login indicators
       localStorage.removeItem("token");

@@ -1,4 +1,3 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -7,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
 import { Button, Modal } from "react-bootstrap";
 
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const MyListings = () => {
   const [doctors, setDoctors] = useState([]);
@@ -19,7 +19,7 @@ const MyListings = () => {
   // 🔐 Check if user is logged in
   const checkAuth = async () => {
     try {
-      const res = await axios.get("${API_BASE}/api/auth/check", {
+      const res = await axios.get(`${API_BASE}/api/auth/check`, {
         withCredentials: true,
       });
       if (!res.data.loggedIn) {
@@ -33,7 +33,7 @@ const MyListings = () => {
 
   const fetchUserDoctors = async () => {
     try {
-      const response = await axios.get("${API_BASE}/api/doctors/user/items", {
+      const response = await axios.get(`${API_BASE}/api/doctors/user/items`, {
         withCredentials: true,
       });
       setDoctors(response.data);

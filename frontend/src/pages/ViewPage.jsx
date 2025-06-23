@@ -1,4 +1,3 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,6 +14,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
 import "./ViewPage.css";
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const ViewPage = () => {
   const { slug } = useParams();

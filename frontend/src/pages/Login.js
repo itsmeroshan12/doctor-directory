@@ -1,4 +1,3 @@
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -7,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -27,7 +28,7 @@ const Login = () => {
     e.preventDefault();
     const loadingToast = toast.loading("Sending reset link...");
     try {
-      const res = await axios.post('${API_BASE}/auth/forgot-password', { email: forgotEmail });
+      const res = await axios.post(`${API_BASE}/auth/forgot-password`, { email: forgotEmail });
       if (res.status === 200) {
         toast.update(loadingToast, {
           render: "Password reset link sent!",
@@ -51,7 +52,7 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('${API_BASE}/auth/login', {
+      const res = await axios.post(`${API_BASE}/auth/login`, {
         email: credentials.email,
         password: credentials.password,
       }, { withCredentials: true });
