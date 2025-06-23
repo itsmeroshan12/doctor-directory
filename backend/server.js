@@ -2,50 +2,48 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const cookieParser = require("cookie-parser"); // move it above
+const cookieParser = require("cookie-parser");
 
 const doctorRoutes = require("./routes/doctorRoutes");
 const authRoutes = require("./routes/authRoutes");
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require("./routes/userRoutes");
 const db = require("./config/db");
 
-const forgotPasswordRoutes = require('./routes/forgotPassword'); // ✅ Import forgot password route
-const resetPasswordRouter = require('./routes/resetPassword'); // ✅ Import reset password route
+const forgotPasswordRoutes = require("./routes/forgotPassword");
+const resetPasswordRouter = require("./routes/resetPassword");
 
 const app = express();
 
 // ✅ Middleware
-app.use(cors({
-  origin: "http://localhost:3000", // your React app's URL
-  credentials: true // Allow cookies to be sent
-}));
-app.use(cookieParser()); // must be immediately after cors
+app.use(
+  cors({
+    origin: "http://localhost:3000", // React dev URL (adjust if using a domain)
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Register routes
+// ✅ API Routes
 app.use("/api/user", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/auth", forgotPasswordRoutes);
+app.use("/user", resetPasswordRouter);
 
-// forgot password Route 
-app.use('/auth', forgotPasswordRoutes);  // Now available at /auth/forgot-password
-
-// reset password Route
-app.use('/user', resetPasswordRouter); 
-
-// ✅ Static folder for uploaded files
+// ✅ Serve static uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ✅ Default API Status
+// ✅ Health check
 app.get("/", (req, res) => {
   res.send("Doctor Directory API is working");
 });
 
 // ✅ Serve frontend React build (production)
 app.use(express.static(path.join(__dirname, "public")));
-app.get("*", (req, res) => {
+app.get(/^\/(?!api|auth|uploads).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
