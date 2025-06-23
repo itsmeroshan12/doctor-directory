@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,7 +15,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/auth/logout", {}, { withCredentials: true });
+      await axios.post("${API_BASE}/auth/logout", {}, { withCredentials: true });
   
       // 🧹 Clear client-side login indicators
       localStorage.removeItem("token");

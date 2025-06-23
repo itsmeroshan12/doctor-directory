@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -64,7 +65,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/register', formData);
+      const response = await axios.post('${API_BASE}/api/user/register', formData);
       setLoading(false);
 
       if (response.data.message) {

@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -26,7 +27,7 @@ const ViewPage = () => {
     const fetchDoctor = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/doctors/slug/${slug}`
+          `${API_BASE}/api/doctors/slug/${slug}`
         );
         setDoctor(res.data);
       } catch (err) {
@@ -62,11 +63,11 @@ const ViewPage = () => {
   }
 
   const hospitalImage = doctor.hospitalImage
-    ? `http://localhost:5000/uploads/${doctor.hospitalImage}`
+    ? `${API_BASE}/uploads/${doctor.hospitalImage}`
     : "https://via.placeholder.com/800x400?text=No+Image";
 
   const doctorImage = doctor.doctorImage
-    ? `http://localhost:5000/uploads/${doctor.doctorImage}`
+    ? `${API_BASE}/uploads/${doctor.doctorImage}`
     : null;
 
   return (

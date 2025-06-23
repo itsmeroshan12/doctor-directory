@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ const LatestListings = () => {
   useEffect(() => {
     const fetchLatestDoctors = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/doctors/latest');
+        const res = await axios.get('${API_BASE}/api/doctors/latest');
         if (Array.isArray(res.data)) {
           setLatestDoctors(res.data);
         } else {
@@ -28,7 +29,7 @@ const LatestListings = () => {
 
   const fetchAllDoctors = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/doctors');
+      const res = await axios.get('${API_BASE}/api/doctors');
       if (Array.isArray(res.data.doctors)) {
         setAllDoctors(res.data.doctors);
         setShowAll(true);
@@ -54,7 +55,7 @@ const LatestListings = () => {
               <div className="card h-100 shadow border-0 rounded-4 overflow-hidden latest-listing-card">
                 <div style={{ position: 'relative' }}>
                   <img
-                    src={`http://localhost:5000/uploads/${doc.hospitalImage}`}
+                    src={`${API_BASE}/uploads/${doc.hospitalImage}`}
                     className="card-img-top"
                     alt={doc.hospitalName}
                     style={{ objectFit: 'cover', height: '220px' }}

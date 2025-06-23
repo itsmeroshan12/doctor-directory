@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +22,7 @@ const Hospitals = () => {
     const fetchDoctors = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/api/doctors?page=${currentPage}`);
+        const response = await axios.get(`${API_BASE}/api/doctors?page=${currentPage}`);
         setDoctors(response.data.doctors);
         setTotalPages(response.data.totalPages);
       } catch (error) {
@@ -106,7 +107,7 @@ const Hospitals = () => {
                 <div key={doctor.id} className="col-md-4 mb-4">
                   <div className="card h-100 custom-card-border">
                     <img
-                      src={`http://localhost:5000/uploads/${doctor?.hospitalImage || "default-image.jpg"}`}
+                      src={`${API_BASE}/uploads/${doctor?.hospitalImage || "default-image.jpg"}`}
                       className="card-img-top"
                       alt={doctor?.hospitalName || "Hospital"}
                       style={{ height: "200px", objectFit: "cover" }}

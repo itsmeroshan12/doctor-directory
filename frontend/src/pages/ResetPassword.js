@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -25,7 +26,7 @@ const ResetPassword = () => {
   
     try {
       // Include token in the URL
-      const res = await axios.post(`http://localhost:5000/user/reset-password/${token}`, { password });
+      const res = await axios.post(`${API_BASE}/user/reset-password/${token}`, { password });
   
       if (res.status === 200) {
         setSuccess('Password reset successfully! Redirecting to login...');

@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -100,7 +101,7 @@ const Home = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/doctors", data, {
+      await axios.post("${API_BASE}/api/doctors", data, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true
       });

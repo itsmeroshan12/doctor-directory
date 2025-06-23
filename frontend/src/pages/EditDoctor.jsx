@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -25,7 +26,7 @@ const EditDoctor = () => {
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/doctors/slug/${slug}`);
+        const res = await axios.get(`${API_BASE}/api/doctors/slug/${slug}`);
         setDoctor(res.data);
       } catch (err) {
         console.error("Error fetching doctor details:", err);
@@ -72,7 +73,7 @@ const EditDoctor = () => {
       if (hospitalImageFile) formData.append("hospitalImage", hospitalImageFile);
 
       // ✅ Use withCredentials to send the token cookie
-      await axios.put(`http://localhost:5000/api/doctors/${doctor.id}`, formData, {
+      await axios.put(`${API_BASE}/api/doctors/${doctor.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -26,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     const loadingToast = toast.loading("Sending reset link...");
     try {
-      const res = await axios.post('http://localhost:5000/auth/forgot-password', { email: forgotEmail });
+      const res = await axios.post('${API_BASE}/auth/forgot-password', { email: forgotEmail });
       if (res.status === 200) {
         toast.update(loadingToast, {
           render: "Password reset link sent!",
@@ -50,7 +51,7 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/auth/login', {
+      const res = await axios.post('${API_BASE}/auth/login', {
         email: credentials.email,
         password: credentials.password,
       }, { withCredentials: true });

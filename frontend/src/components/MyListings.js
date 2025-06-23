@@ -1,3 +1,4 @@
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -18,7 +19,7 @@ const MyListings = () => {
   // 🔐 Check if user is logged in
   const checkAuth = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/check", {
+      const res = await axios.get("${API_BASE}/api/auth/check", {
         withCredentials: true,
       });
       if (!res.data.loggedIn) {
@@ -32,7 +33,7 @@ const MyListings = () => {
 
   const fetchUserDoctors = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/doctors/user/items", {
+      const response = await axios.get("${API_BASE}/api/doctors/user/items", {
         withCredentials: true,
       });
       setDoctors(response.data);
@@ -56,7 +57,7 @@ const MyListings = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/doctors/${selectedDoctorId}`, {
+      await axios.delete(`${API_BASE}/api/doctors/${selectedDoctorId}`, {
         withCredentials: true,
       });
       toast.success("Doctor deleted successfully!");
@@ -97,7 +98,7 @@ const MyListings = () => {
                   </div>
                   <div className="d-flex align-items-start">
                     <img
-                      src={`http://localhost:5000/uploads/${doctor.hospitalImage || "default-image.jpg"}`}
+                      src={`${API_BASE}/uploads/${doctor.hospitalImage || "default-image.jpg"}`}
                       alt={doctor.hospitalName}
                       className="rounded me-3"
                       style={{ width: "80px", height: "80px", objectFit: "cover" }}
