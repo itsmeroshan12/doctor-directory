@@ -37,9 +37,9 @@ app.use("/user", resetPasswordRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ✅ Health check
-app.get("/", (req, res) => {
-  res.send("Doctor Directory API is working");
-});
+// app.get("/", (req, res) => {
+//   res.send("Doctor Directory API is working");
+// });
 
 // ✅ Serve frontend React build (production)
 app.use(express.static(path.join(__dirname, "public")));
