@@ -40,7 +40,7 @@ router.post('/forgot-password', async (req, res) => {
       [resetToken, resetTokenExpiration, user.id]
     );
 
-    const resetUrl = `http://localhost:3000/user/reset-password/${resetToken}`;
+    const resetUrl = `http://http://3.110.47.184/user/reset-password/${resetToken}`;
 
     // 4. Send the email
     await transporter.sendMail({
