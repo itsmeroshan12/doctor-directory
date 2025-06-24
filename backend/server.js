@@ -17,7 +17,7 @@ const app = express();
 // ✅ Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000", // React dev URL (adjust if using a domain)
+    origin: ["http://localhost:3000", "http://3.110.47.184"],
     credentials: true,
   })
 );
@@ -49,6 +49,6 @@ app.get(/^\/(?!api|auth|uploads).*/, (req, res) => {
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server running on http://0.0.0.0:${PORT}`);
 });
