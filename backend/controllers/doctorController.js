@@ -93,9 +93,8 @@ exports.getDoctors = async (req, res) => {
     const limit = 12;
     const offset = (page - 1) * limit;
 
-    const [rows] = await db.execute(
-      'SELECT * FROM doctors ORDER BY created_at DESC LIMIT ? OFFSET ?',
-      [Number(limit), Number(offset)]
+    const [rows] = await db.query(
+      `SELECT * FROM doctors ORDER BY created_at DESC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`
     );
 
     const [countResult] = await db.execute('SELECT COUNT(*) as count FROM doctors');
